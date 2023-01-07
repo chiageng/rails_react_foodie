@@ -38,37 +38,36 @@ const NewForum = () => {
       })
       .then((response) => navigate(`/forums/show/${response.id}`))
       .catch((error) => console.log(error.message));
-    }
+  };
 
-    return (
-      <div>
-        
-        <form onSubmit={onSubmit}>
-          <div>
-            <label htmlFor="forumTitle">Forum Title</label>
-            <input
-              type="text"
-              name="title"
-              value={title}
-              onChange={(event) => onChange(event, setTitle)}
-            ></input>
-          </div>
-          <div>
-            <label htmlFor="forumDescriptions">Forum Descriptions</label>
-            <input
-              type="text"
-              name="descriptions"
-              value={descriptions}
-              onChange={(event) => onChange(event, setDescriptions)}
-            ></input>
-          </div>
-          <div>
-            <button type="submit">Create Forum</button>
-            <Link to="/forums">Cancel</Link>
-          </div>
-        </form>
-      </div>
-    );
+  return (
+    <div>
+      <form onSubmit={onSubmit}>
+        <div>
+          <label htmlFor="forumTitle">Forum Title</label>
+          <input
+            type="text"
+            name="title"
+            value={title}
+            onChange={(event) => onChange(event, setTitle)}
+          ></input>
+        </div>
+        <div>
+          <label htmlFor="forumDescriptions">Forum Descriptions</label>
+          <input
+            type="text"
+            name="descriptions"
+            value={descriptions}
+            onChange={(event) => onChange(event, setDescriptions)}
+          ></input>
+        </div>
+        <div>
+          <button type="submit">Create Forum</button>
+          <Link to="/forums">Cancel</Link>
+        </div>
+      </form>
+    </div>
+  );
 };
 
 export default NewForum;
