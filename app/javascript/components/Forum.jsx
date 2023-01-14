@@ -47,6 +47,7 @@ const Forum = () => {
 
   return <div>{displayForum}
   <Link to="/forums"> Back to Forums Page </Link>
+  <Link to={`/forum/update/${forum.id}`}> Edit Forum </Link>
   <button type="button" onClick={deleteForum}>Delete Forum</button>
   </div>;
 };

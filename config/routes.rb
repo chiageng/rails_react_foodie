@@ -5,6 +5,8 @@ Rails.application.routes.draw do
       post 'forums/create'
       get 'forums/show/:id', to: "forums#show"
       delete 'forums/destroy/:id', to: "forums#destroy"
+      post 'forums/update/:id', to: "forums#update"
+      get 'forum/update/:id', to: "forums#edit"
     end
   end
   root 'homepage#index'

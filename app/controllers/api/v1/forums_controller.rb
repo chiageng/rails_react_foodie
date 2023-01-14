@@ -1,5 +1,5 @@
 class Api::V1::ForumsController < ApplicationController
-  before_action :find_forum, only: %i[show destroy]
+  before_action :find_forum, only: %i[show destroy update edit] 
 
   def index
     forums = Forum.all.order(created_at: :desc)
@@ -18,6 +18,18 @@ class Api::V1::ForumsController < ApplicationController
   def show
     render json: @forum
   end
+
+  def edit 
+    render json: @forum
+  end 
+
+  def update
+    if (@forum.update(forum_params))
+      render json: @forum 
+    else 
+      render json: @forum.errors  
+    end 
+  end 
 
   def destroy
     @forum&.destroy 

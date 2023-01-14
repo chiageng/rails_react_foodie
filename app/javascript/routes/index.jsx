@@ -4,6 +4,7 @@ import Home from "../components/Home";
 import Forums from "../components/Forums";
 import Forum from "../components/Forum";
 import NewForum from "../components/NewForum";
+import EditForum from "../components/EditForum";
 
 export default (
   <Router>
@@ -12,6 +13,7 @@ export default (
       <Route path="/forums" element={<Forums/>} />
       <Route path="/forums/show/:id" element={<Forum/>} />
       <Route path="/forum/create" element={<NewForum/>} />
+      <Route path="/forum/update/:id" element={<EditForum/>} />
     </Routes>
   </Router>
 );
