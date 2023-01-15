@@ -60,6 +60,7 @@ const Forums = () => {
       <Row>
         <Col sm={3}></Col>
         <Col sm={6}>
+          <Button variant="outline-primary margin-right" href="forum/create">New Forum</Button>
           {allForums}
         </Col>
         <Col sm={3}></Col>

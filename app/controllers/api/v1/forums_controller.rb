@@ -8,6 +8,7 @@ class Api::V1::ForumsController < ApplicationController
 
   def create
     forum = Forum.create(forum_params)
+    forum.user = current_user
     if forum 
       render json: forum 
     else 

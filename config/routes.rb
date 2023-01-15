@@ -9,6 +9,11 @@ Rails.application.routes.draw do
       get 'forum/update/:id', to: "forums#edit"
       post 'forums/:forum_id/comments/create', to: "comments#create"
       delete 'forums/:forum_id/comments/:id', to: "comments#destroy"
+
+      post 'users/create', to: 'users#create'
+      get 'users/index', to: 'users#index'
+      get 'users/show/:id', to: "users#show"
+      delete 'users/destroy/:id', to: "users#destroy"
     end
   end
   root 'homepage#index'

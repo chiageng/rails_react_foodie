@@ -2,6 +2,7 @@ class Api::V1::CommentsController < ApplicationController
   before_action :find_forum, only: %i[create destroy] 
   def create
     @comment = @forum.comments.create(comment_params)
+    @comment.user = current_user
     if @comment 
       render json: @comment
     else 
