@@ -11,7 +11,7 @@ export default (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/forums" element={<Forums/>} />
-      <Route path="/forums/show/:id" element={<Forum/>} />
+      <Route path="/forums/show/:id" element={<Forum/>}/>
       <Route path="/forum/create" element={<NewForum/>} />
       <Route path="/forum/update/:id" element={<EditForum/>} />
     </Routes>

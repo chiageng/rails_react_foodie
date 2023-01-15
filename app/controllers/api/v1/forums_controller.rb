@@ -16,7 +16,7 @@ class Api::V1::ForumsController < ApplicationController
   end
 
   def show
-    render json: @forum
+    render json: {forum: @forum, comments: @forum.comments}
   end
 
   def edit 
