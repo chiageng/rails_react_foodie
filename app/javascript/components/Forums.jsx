@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import AuthContext from "./store/auth-context";
 
-const Forums = ({ setStoredToken} ) => {
+const Forums = () => {
+  const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
   const [forums, setForums] = useState([]);
 
@@ -66,7 +68,7 @@ const Forums = ({ setStoredToken} ) => {
 
   const logoutHandler = () => {
     localStorage.removeItem("token");
-    localStorage.setItem("testing", "testing");
+    localStorage.removeItem("testing");
     setStoredToken(null);
     alert("logout");
   }
@@ -77,7 +79,7 @@ const Forums = ({ setStoredToken} ) => {
         <Col sm={3}></Col>
         <Col sm={6}>
           <Button variant="outline-primary margin-right" href="forum/create">New Forum testing</Button>
-          <Button variant="outline-primary margin-right" onClick={logoutHandler}>Logout</Button>
+          <Button variant="outline-primary margin-right" onClick={authCtx.logout}>Logout</Button>
           {/* {allForums} */}
         </Col>
         <Col sm={3}></Col>

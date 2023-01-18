@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "./store/auth-context";
 
 const NewUser = ( { setStoredToken } ) => {
   const navigate = useNavigate();
+  const authCtx = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -27,6 +29,7 @@ const NewUser = ( { setStoredToken } ) => {
       headers: {
         "X-CSRF-Token": token,
         "Content-Type": "application/json",
+        Authorization: localStorage.token
       },
       body: JSON.stringify(body),
     })
@@ -37,10 +40,12 @@ const NewUser = ( { setStoredToken } ) => {
         throw new Error("Network response was not ok.");
       })
       .then((data) => {
-        localStorage.setItem("token", data.jwt);
-        localStorage.setItem("testing", "testing");
-        console.log("data.jwt");
-        setStoredToken(data.jwt);
+        authCtx.login(data.jwt);
+        // localStorage.setItem("token", data.jwt);
+        // localStorage.setItem("testing", "testing");
+        // authCtx.login(data.jwt);
+        // console.log(authCtx.isLoggedIn);
+        // setStoredToken(data.jwt);
       })
       .catch((error) => console.log(error.message));
       setUsername("");

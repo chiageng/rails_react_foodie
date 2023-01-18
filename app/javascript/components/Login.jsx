@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "./store/auth-context";
+
 
 const Login = ({ setStoredToken}) => {
+  const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -41,8 +44,8 @@ const Login = ({ setStoredToken}) => {
         throw new Error("Network response was not ok.");
       })
       .then((data) => {
-        localStorage.setItem("token", data.jwt);
-        setStoredToken(data.jwt);
+        // localStorage.setItem("token", data.jwt);
+        authCtx.login(data.jwt);
         navigate("/");
       })
       .catch((error) => alert(error.message));

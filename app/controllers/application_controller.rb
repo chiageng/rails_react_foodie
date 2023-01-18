@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+
     def jwt_key
         Rails.application.credentials.jwt_key 
     end 
