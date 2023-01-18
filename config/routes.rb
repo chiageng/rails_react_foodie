@@ -14,6 +14,9 @@ Rails.application.routes.draw do
       get 'users/index', to: 'users#index'
       get 'users/show/:id', to: "users#show"
       delete 'users/destroy/:id', to: "users#destroy"
+
+      post 'login', to: "sessions#create"
+      get "logout", to: "sessions#destroy"
     end
   end
   root 'homepage#index'

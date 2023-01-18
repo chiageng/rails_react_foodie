@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const NewUser = ( { setStoredToken } ) => {
+const Login = ({ setStoredToken}) => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -12,14 +12,17 @@ const NewUser = ( { setStoredToken } ) => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    const url = "/api/v1/users/create";
+    const url = "/api/v1/login";
 
     if (username.length == 0 || password.length == 0) return;
 
     const body = {
-      username,
-      password,
+      user: {
+        username,
+        password,
+      },
     };
+
 
     const token = document.querySelector('meta[name="csrf-token"]').content;
     fetch(url, {
@@ -27,6 +30,7 @@ const NewUser = ( { setStoredToken } ) => {
       headers: {
         "X-CSRF-Token": token,
         "Content-Type": "application/json",
+        Authorization: localStorage.token
       },
       body: JSON.stringify(body),
     })
@@ -38,18 +42,16 @@ const NewUser = ( { setStoredToken } ) => {
       })
       .then((data) => {
         localStorage.setItem("token", data.jwt);
-        localStorage.setItem("testing", "testing");
-        console.log("data.jwt");
         setStoredToken(data.jwt);
+        navigate("/");
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => alert(error.message));
       setUsername("");
       setPassword("");
   };
 
   return (
     <div>
-      <h2>Here is signup page</h2>
       <form onSubmit={onSubmit}>
         <div>
           <label htmlFor="username">Username</label>
@@ -70,7 +72,7 @@ const NewUser = ( { setStoredToken } ) => {
           ></input>
         </div>
         <div>
-          <button type="submit">Create User</button>
+          <button type="submit">Login</button>
           <Link to="/forums">Cancel</Link>
         </div>
       </form>
@@ -78,4 +80,4 @@ const NewUser = ( { setStoredToken } ) => {
   );
 };
 
-export default NewUser;
+export default Login;

@@ -1,4 +1,5 @@
 class Api::V1::ForumsController < ApplicationController
+  # before_action :authorized
   before_action :find_forum, only: %i[show destroy update edit] 
 
   def index

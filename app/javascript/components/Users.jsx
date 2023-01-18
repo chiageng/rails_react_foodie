@@ -15,7 +15,10 @@ const Users = () => {
         }
         throw new Error("Network response was not ok.");
       })
-      .then((res) => setUsers(res))
+      .then((res) => {
+        setUsers(res);
+        console.log(res);
+      })
       .catch(() => navigate("/"));
   }, []);
 
@@ -38,6 +41,7 @@ const Users = () => {
   const allUsers = users.map((user) => (
     <div key={user.id}>
       <h1>{user.username}</h1>
+      {console.log(user)}
       <Button variant="outline-primary margin-right" href={`/users/show/${user.id}`}>Show</Button>
     </div>
   ));

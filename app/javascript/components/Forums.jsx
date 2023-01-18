@@ -6,20 +6,29 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-const Forums = () => {
+const Forums = ({ setStoredToken} ) => {
   const navigate = useNavigate();
   const [forums, setForums] = useState([]);
 
   useEffect(() => {
     const url = "/api/v1/forums/index";
-    fetch(url)
+    fetch(url, {
+      method: "GET", 
+      headers: {
+        Accepts: "application/json",
+        "Content-type": "application/json",
+        Authorization: localStorage.token,
+      }
+    })
       .then((res) => {
         if (res.ok) {
           return res.json();
         }
         throw new Error("Network response was not ok.");
       })
-      .then((res) => setForums(res))
+      .then((res) => {
+        setForums(res);
+      })
       .catch(() => navigate("/"));
   }, []);
 
@@ -55,13 +64,21 @@ const Forums = () => {
     </Card>
   ));
 
+  const logoutHandler = () => {
+    localStorage.removeItem("token");
+    localStorage.setItem("testing", "testing");
+    setStoredToken(null);
+    alert("logout");
+  }
+
   return (
     <Container className="mt-4 ">
       <Row>
         <Col sm={3}></Col>
         <Col sm={6}>
-          <Button variant="outline-primary margin-right" href="forum/create">New Forum</Button>
-          {allForums}
+          <Button variant="outline-primary margin-right" href="forum/create">New Forum testing</Button>
+          <Button variant="outline-primary margin-right" onClick={logoutHandler}>Logout</Button>
+          {/* {allForums} */}
         </Col>
         <Col sm={3}></Col>
       </Row>
