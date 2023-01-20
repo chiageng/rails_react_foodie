@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get 'forums/index'
+      post 'forums/index/filtered', to: "forums#filtered"
       get 'forum/create', to: "forums#new"
       post 'forums/create'
       get 'forums/show/:id', to: "forums#show"

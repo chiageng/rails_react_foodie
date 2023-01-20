@@ -4,6 +4,13 @@ class Api::V1::ForumsController < ApplicationController
 
   def index
     forums = Forum.all.order(created_at: :desc)
+    categories = Category.all;
+    render json: { forums: forums, categories: categories } 
+  end
+
+  def filtered
+    category = Category.find_by(category: params[:category])
+    forums = category.forums
     render json: forums
   end
 

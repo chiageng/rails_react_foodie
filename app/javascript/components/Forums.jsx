@@ -11,6 +11,9 @@ const Forums = () => {
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
   const [forums, setForums] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selected, setSelected] = useState("");
+  const [filtered, setFiltered] = useState([]);
 
   useEffect(() => {
     const url = "/api/v1/forums/index";
@@ -29,10 +32,44 @@ const Forums = () => {
         throw new Error("Network response was not ok.");
       })
       .then((res) => {
-        setForums(res);
+        setForums(res.forums);
+        setCategories(res.categories);
       })
       .catch(() => navigate("/"));
   }, []);
+
+  const onPostCategory = (category) => {
+    const url = "/api/v1/forums/index/filtered";
+
+    if (category.length == 0) {
+      return;
+    }
+    
+    const body = {
+      "category": category
+    };
+
+    const token = document.querySelector('meta[name="csrf-token"]').content;
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "X-CSRF-Token": token,
+        "Content-Type": "application/json",
+        Authorization: localStorage.token,
+      },
+      body: JSON.stringify(body),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then((response) => {
+        setFiltered(response);
+      })
+      .catch((error) => console.log(error.message));
+  };
 
   // const allForums = forums.map((forum) => (
   //   <div key={forum.id} className="">
@@ -50,7 +87,8 @@ const Forums = () => {
   //   </div>
   // );
 
-  const allForums = forums.map((forum) => (
+
+  let allForums = forums.map((forum) => (
     <Card key={forum.id} className="mb-4">
       <Card.Header>Forum</Card.Header>
       <div className="d-flex flex-row bd-highlight mb-3 align-items-center">
@@ -66,6 +104,24 @@ const Forums = () => {
     </Card>
   ));
 
+  if (selected != "") {
+    allForums = filtered.map((forum) => (
+      <Card key={forum.id} className="mb-4">
+        <Card.Header>Forum</Card.Header>
+        <div className="d-flex flex-row bd-highlight mb-3 align-items-center">
+        <img src={forum.image} className="p-2 bd-highlight" alt="..." width="100px" height="100px"></img>
+        <Card.Body className="p-2 bd-highlight">
+          <Card.Title>{forum.title}</Card.Title>
+          <Card.Text>
+            {forum.descriptions}
+          </Card.Text>
+        </Card.Body>
+        <Button variant="outline-primary margin-right" href={`/forums/show/${forum.id}`}>Show</Button>
+        </div>
+      </Card>
+    ));
+  }
+
   const logoutHandler = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("testing");
@@ -73,13 +129,28 @@ const Forums = () => {
     alert("logout");
   }
 
+  const onClickCategory = (event, category) => {
+    setSelected(category);
+    onPostCategory(category);
+  }
+
+  const allCategories = categories.map( category => (
+    <Button variant="outline-primary margin-right" key={category.id} onClick={event => onClickCategory(event, category.category)}>{category.category}</Button>
+  ))
+
   return (
     <Container className="mt-4 ">
       <Row>
         <Col sm={3}></Col>
         <Col sm={6}>
+          <div>
           <Button variant="outline-primary margin-right" href="forum/create">New Forum</Button>
           <Button variant="outline-primary margin-right" onClick={authCtx.logout}>Logout</Button>
+          </div>
+          <div>
+          <Button variant="outline-primary margin-right" onClick={event => onClickCategory(event, "")}>All</Button>
+          {allCategories}
+          </div>
           {allForums}
         </Col>
         <Col sm={3}></Col>
