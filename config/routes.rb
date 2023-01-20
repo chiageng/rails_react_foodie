@@ -22,6 +22,8 @@ Rails.application.routes.draw do
       post 'categories/create'
       get 'categories/show/:id', to: "categories#show"
       delete 'categories/destroy/:id', to: "categories#destroy"
+      get 'category/update/:id', to: "categories#edit"
+      post 'categories/update/:id', to: "categories#update"
     end
   end
   root 'homepage#index'

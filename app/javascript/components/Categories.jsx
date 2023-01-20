@@ -85,6 +85,7 @@ const Categories = () => {
         <Card.Title>{category.category}</Card.Title>
       </Card.Body>
       <Button variant="outline-primary margin-right" onClick={deleteCategory(category.id)}>Delete</Button>
+      <Button variant="outline-primary margin-right" href={`/category/update/${category.id}`}>Edit</Button>
       </div>
     </Card>
   ));

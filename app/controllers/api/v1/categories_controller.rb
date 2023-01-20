@@ -8,6 +8,7 @@ class Api::V1::CategoriesController < ApplicationController
   
     def create
       category = Category.new(category_params)
+      category.user = current_user
       if category.save
         render json: category 
       else 

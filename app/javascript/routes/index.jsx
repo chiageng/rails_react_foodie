@@ -13,6 +13,7 @@ import Login from "../components/Login";
 import AuthContext, { AuthContextProvider } from "../components/store/auth-context";
 import Categories from "../components/Categories";
 import NewCategory from "../components/NewCategory";
+import EditCategory from "../components/EditCategory";
 
 const Index = (props) => {
   const authCtx = useContext(AuthContext);
@@ -36,6 +37,7 @@ const Index = (props) => {
 
           <Route path="/categories" element={authCtx.isLoggedIn ? <Categories></Categories> : <Navigate to="/login"></Navigate>}/>
           <Route path="/category/create" element={authCtx.isLoggedIn ? <NewCategory></NewCategory> : <Navigate to="/login"></Navigate>}/>
+          <Route path="/category/update/:id" element={authCtx.isLoggedIn ? <EditCategory></EditCategory> : <Navigate to="/login"></Navigate>} />
         </Routes>
       </Router>
     </AuthContextProvider>
