@@ -17,6 +17,11 @@ Rails.application.routes.draw do
 
       post 'login', to: "sessions#create"
       get "logout", to: "sessions#destroy"
+
+      get 'categories/index'
+      post 'categories/create'
+      get 'categories/show/:id', to: "categories#show"
+      delete 'categories/destroy/:id', to: "categories#destroy"
     end
   end
   root 'homepage#index'
