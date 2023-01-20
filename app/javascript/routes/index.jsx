@@ -29,7 +29,7 @@ const Index = (props) => {
           <Route path="/forums/show/:id" element={authCtx.isLoggedIn ? <Forum /> : <Navigate to="/login"></Navigate>} />
           <Route path="/forum/create" element={authCtx.isLoggedIn ? <NewForum /> : <Navigate to="/login"></Navigate>} />
           <Route path="/forum/update/:id" element={authCtx.isLoggedIn ? <EditForum /> : <Navigate to="/login"></Navigate>} />
-          <Route path="/signup" element={authCtx.isLoggedIn ? <NewUser /> : <Navigate to="/login"></Navigate>} />
+          <Route path="/signup" element={!authCtx.isLoggedIn ? <NewUser /> : <Navigate to="/"></Navigate>} />
           <Route path="/login" element={authCtx.isLoggedIn ? <Navigate to="/"></Navigate> : <Login />} />
 
           <Route path="/users" element={authCtx.isLoggedIn ? <Users /> : <Navigate to="/login"></Navigate>} />
