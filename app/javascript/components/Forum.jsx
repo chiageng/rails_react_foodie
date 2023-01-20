@@ -34,6 +34,7 @@ const Forum = () => {
       headers: {
         "X-CSRF-Token": token,
         "Content-Type": "application/json",
+        Authorization: localStorage.token,
       },
     })
       .then((response) => {
@@ -59,7 +60,6 @@ const Forum = () => {
     const body = {
       comment
     };
-
     const token = document.querySelector('meta[name="csrf-token"]').content;
 
     fetch(url, {
@@ -67,6 +67,7 @@ const Forum = () => {
       headers: {
         "X-CSRF-Token": token,
         "Content-Type": "application/json",
+        Authorization: localStorage.token,
       },
       body: JSON.stringify(body),
     })

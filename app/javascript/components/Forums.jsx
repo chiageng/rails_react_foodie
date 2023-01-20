@@ -78,9 +78,9 @@ const Forums = () => {
       <Row>
         <Col sm={3}></Col>
         <Col sm={6}>
-          <Button variant="outline-primary margin-right" href="forum/create">New Forum testing</Button>
+          <Button variant="outline-primary margin-right" href="forum/create">New Forum</Button>
           <Button variant="outline-primary margin-right" onClick={authCtx.logout}>Logout</Button>
-          {/* {allForums} */}
+          {allForums}
         </Col>
         <Col sm={3}></Col>
       </Row>

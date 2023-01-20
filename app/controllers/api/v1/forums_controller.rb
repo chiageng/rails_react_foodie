@@ -8,9 +8,9 @@ class Api::V1::ForumsController < ApplicationController
   end
 
   def create
-    forum = Forum.create(forum_params)
+    forum = Forum.new(forum_params)
     forum.user = current_user
-    if forum 
+    if forum.save
       render json: forum 
     else 
       render json: forum.errors

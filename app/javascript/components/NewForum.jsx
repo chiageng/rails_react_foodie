@@ -27,7 +27,7 @@ const NewForum = () => {
       headers: {
         "X-CSRF-Token": token,
         "Content-Type": "application/json",
-        "Authorization": localStorage.token
+        Authorization: localStorage.token
       },
       body: JSON.stringify(body),
     })

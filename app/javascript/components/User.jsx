@@ -31,6 +31,7 @@ const User = () => {
       headers: {
         "X-CSRF-Token": token,
         "Content-Type": "application/json",
+        Authorization: localStorage.token,
       },
     })
       .then((response) => {

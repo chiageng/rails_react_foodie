@@ -43,6 +43,7 @@ const EditForum = () => {
       headers: {
         "X-CSRF-Token": token,
         "Content-Type": "application/json",
+        Authorization: localStorage.token,
       },
       body: JSON.stringify(body),
     })

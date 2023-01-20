@@ -1,12 +1,13 @@
 class Api::V1::CommentsController < ApplicationController
+
   before_action :find_forum, only: %i[create destroy] 
   def create
-    @comment = @forum.comments.create(comment_params)
+    @comment = @forum.comments.new(comment_params)
     @comment.user = current_user
-    if @comment 
+    if @comment.save
       render json: @comment
     else 
-      render json: @comment.error 
+      render json: current_user
     end 
   end
 
@@ -18,7 +19,7 @@ class Api::V1::CommentsController < ApplicationController
 
   private 
   def comment_params
-    params.permit(:comment)
+    params.permit(:comment, :user_id)
   end 
 
   def find_forum 

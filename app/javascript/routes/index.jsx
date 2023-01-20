@@ -23,14 +23,14 @@ const Index = (props) => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/forums" element={authCtx.isLoggedIn ? <Forums></Forums> : <Navigate to="/login"></Navigate>}/>
-          <Route path="/forums/show/:id" element={<Forum />} />
-          <Route path="/forum/create" element={<NewForum />} />
-          <Route path="/forum/update/:id" element={<EditForum />} />
-          <Route path="/signup" element={<NewUser />} />
+          <Route path="/forums/show/:id" element={authCtx.isLoggedIn ? <Forum /> : <Navigate to="/login"></Navigate>} />
+          <Route path="/forum/create" element={authCtx.isLoggedIn ? <NewForum /> : <Navigate to="/login"></Navigate>} />
+          <Route path="/forum/update/:id" element={authCtx.isLoggedIn ? <EditForum /> : <Navigate to="/login"></Navigate>} />
+          <Route path="/signup" element={authCtx.isLoggedIn ? <NewUser /> : <Navigate to="/login"></Navigate>} />
           <Route path="/login" element={authCtx.isLoggedIn ? <Navigate to="/"></Navigate> : <Login />} />
 
-          <Route path="/users" element={<Users />} />
-          <Route path="/users/show/:id" element={<User />} />
+          <Route path="/users" element={authCtx.isLoggedIn ? <Users /> : <Navigate to="/login"></Navigate>} />
+          <Route path="/users/show/:id" element={authCtx.isLoggedIn ? <User /> : <Navigate to="/login"></Navigate>} />
         </Routes>
       </Router>
     </AuthContextProvider>
