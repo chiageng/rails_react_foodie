@@ -4,4 +4,7 @@ class Forum < ApplicationRecord
 
     has_many :comments, dependent: :destroy
     belongs_to :user
+    
+    has_many :forum_categories, dependent: :destroy 
+    has_many :categories, through: :forum_categories
 end

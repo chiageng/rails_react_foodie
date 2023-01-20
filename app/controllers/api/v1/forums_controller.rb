@@ -7,8 +7,16 @@ class Api::V1::ForumsController < ApplicationController
     render json: forums
   end
 
+  def new 
+    categories = Category.all 
+    categories = categories.map{ |category| category.category }
+    render json: categories
+  end 
+
   def create
     forum = Forum.new(forum_params)
+    category = Category.find_by(category: params[:category])
+    forum.categories << category
     forum.user = current_user
     if forum.save
       render json: forum 
@@ -40,7 +48,7 @@ class Api::V1::ForumsController < ApplicationController
 
   private
   def forum_params 
-    params.require(:forum).permit(:title, :descriptions, :image)
+    params.permit(:title, :descriptions, :image)
   end 
 
   def find_forum 
