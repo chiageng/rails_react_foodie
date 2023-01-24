@@ -6,6 +6,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import AuthContext from "./store/auth-context";
+import Nav from "./Nav";
 
 const Categories = () => {
   const authCtx = useContext(AuthContext);
@@ -17,12 +18,12 @@ const Categories = () => {
   useEffect(() => {
     const url = "/api/v1/categories/index";
     fetch(url, {
-      method: "GET", 
+      method: "GET",
       headers: {
         Accepts: "application/json",
         "Content-type": "application/json",
         Authorization: localStorage.token,
-      }
+      },
     })
       .then((res) => {
         if (res.ok) {
@@ -56,8 +57,8 @@ const Categories = () => {
       })
       .then(() => {
         alert("Category deleted");
-        setReload(prev => prev + 1);
-    })
+        setReload((prev) => prev + 1);
+      })
       .catch((error) => console.log(error.message));
   };
 
@@ -81,26 +82,44 @@ const Categories = () => {
     <Card key={category.id} className="mb-4">
       <Card.Header>Category</Card.Header>
       <div className="d-flex flex-row bd-highlight mb-3 align-items-center">
-      <Card.Body className="p-2 bd-highlight">
-        <Card.Title>{category.category}</Card.Title>
-      </Card.Body>
-      <Button variant="outline-primary margin-right" onClick={deleteCategory(category.id)}>Delete</Button>
-      <Button variant="outline-primary margin-right" href={`/category/update/${category.id}`}>Edit</Button>
+        <Card.Body className="p-2 bd-highlight">
+          <Card.Title>{category.category}</Card.Title>
+        </Card.Body>
+        <Button
+          variant="outline-primary margin-right"
+          onClick={deleteCategory(category.id)}
+        >
+          Delete
+        </Button>
+        <Button
+          variant="outline-primary margin-right"
+          href={`/category/update/${category.id}`}
+        >
+          Edit
+        </Button>
       </div>
     </Card>
   ));
 
   return (
-    <Container className="mt-4 ">
-      <Row>
-        <Col sm={3}></Col>
-        <Col sm={6}>
-          <Button variant="outline-primary margin-right" href="category/create">New Category</Button>
-          {allCategories}
-        </Col>
-        <Col sm={3}></Col>
-      </Row>
-    </Container>
+    <>
+      <Nav></Nav>
+      <Container className="mt-4 ">
+        <Row>
+          <Col sm={3}></Col>
+          <Col sm={6}>
+            <Button
+              variant="outline-primary margin-right"
+              href="category/create"
+            >
+              New Category
+            </Button>
+            {allCategories}
+          </Col>
+          <Col sm={3}></Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 

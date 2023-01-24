@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import CategoryForm from "./CategoryForm";
 
 const NewCategory = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const NewCategory = () => {
     if (category.length == 0) return;
 
     const body = {
-      category
+      category,
     };
 
     const token = document.querySelector('meta[name="csrf-token"]').content;
@@ -25,7 +26,7 @@ const NewCategory = () => {
       headers: {
         "X-CSRF-Token": token,
         "Content-Type": "application/json",
-        Authorization: localStorage.token
+        Authorization: localStorage.token,
       },
       body: JSON.stringify(body),
     })
@@ -39,7 +40,7 @@ const NewCategory = () => {
       .catch((error) => console.log(error.message));
   };
 
-  return (
+  const oldForm = (
     <div>
       <form onSubmit={onSubmit}>
         <div>
@@ -57,6 +58,17 @@ const NewCategory = () => {
         </div>
       </form>
     </div>
+  );
+
+  return (
+    <CategoryForm
+      onSubmit={onSubmit}
+      category={category}
+      onChange={onChange}
+      setCategory={setCategory}
+      button="Create Category"
+      direction="/categories"
+    ></CategoryForm>
   );
 };
 

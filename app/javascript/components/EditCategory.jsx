@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import CategoryForm from "./CategoryForm";
 
-const EditCategory= () => {
+const EditCategory = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [category, setCategory] = useState("");
@@ -22,17 +23,17 @@ const EditCategory= () => {
       .then((response) => {
         setCategory(response.category);
       })
-      .catch(() => (alert("error")));
+      .catch(() => alert("error"));
   }, [params.id]);
 
   const onSubmit = (event) => {
     event.preventDefault();
     const url = `/api/v1/categories/update/${params.id}`;
 
-    if (category.category == 0 ) return;
+    if (category.category == 0) return;
 
     const body = {
-      category
+      category,
     };
 
     const token = document.querySelector('meta[name="csrf-token"]').content;
@@ -55,7 +56,7 @@ const EditCategory= () => {
       .catch((error) => console.log(error.message));
   };
 
-  return (
+  const oldForm = (
     <div>
       <form onSubmit={onSubmit}>
         <div>
@@ -73,6 +74,17 @@ const EditCategory= () => {
         </div>
       </form>
     </div>
+  );
+
+  return (
+    <CategoryForm
+      onSubmit={onSubmit}
+      category={category}
+      setCategory={setCategory}
+      onChange={onChange}
+      direction="/categories"
+      button="Update Category"
+    ></CategoryForm>
   );
 };
 

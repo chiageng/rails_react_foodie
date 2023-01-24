@@ -24,7 +24,7 @@ const Index = (props) => {
     <AuthContextProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Navigate to="/forums"></Navigate>} />
           <Route path="/forums" element={authCtx.isLoggedIn ? <Forums></Forums> : <Navigate to="/login"></Navigate>}/>
           <Route path="/forums/show/:id" element={authCtx.isLoggedIn ? <Forum /> : <Navigate to="/login"></Navigate>} />
           <Route path="/forum/create" element={authCtx.isLoggedIn ? <NewForum /> : <Navigate to="/login"></Navigate>} />

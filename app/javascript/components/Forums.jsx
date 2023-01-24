@@ -24,6 +24,7 @@ import GlobalStyles from "@mui/material/GlobalStyles";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { purple } from "@mui/material/colors";
+import Nav from "./Nav";
 // import '@fontsource/roboto/700.css';
 
 // const Forums = () => {
@@ -479,46 +480,19 @@ const Forums = () => {
     // console.log(category);
   };
 
-  const allCategories = categories.map((category) => (
-    <Button
-      variant="outline-primary margin-right"
-      key={category.id}
-      onClick={(event) => onClickCategory(event, category.category)}
-    >
-      {category.category}
-    </Button>
-  ));
-
-
+  // const allCategories = categories.map((category) => (
+  //   <Button
+  //     variant="outline-primary margin-right"
+  //     key={category.id}
+  //     onClick={(event) => onClickCategory(event, category.category)}
+  //   >
+  //     {category.category}
+  //   </Button>
+  // ));
 
   return (
     <React.Fragment>
-      <GlobalStyles
-        styles={{ ul: { margin: 0, padding: 0, listStyle: "none" } }}
-      />
-      <CssBaseline />
-      <AppBar
-        position="static"
-        color="default"
-        elevation={0}
-        sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
-      >
-        <Toolbar sx={{ flexWrap: "wrap" }}>
-          <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-            Foodie
-          </Typography>
-          <Typography>{allCategories}</Typography>
-
-          <Button
-            onClick={authCtx.logout}
-            variant="outlined"
-            sx={{ my: 1, mx: 1.5 }}
-          >
-            Logout
-          </Button>
-        </Toolbar>
-      </AppBar>
-
+      <Nav categories={categories} onClickCategory={onClickCategory}></Nav>
       {/* Hero unit */}
       <Container
         disableGutters

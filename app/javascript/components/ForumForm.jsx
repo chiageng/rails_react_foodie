@@ -7,9 +7,12 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Form from "react-bootstrap/Form";
+import Nav from "./Nav";
 
 const ForumForm = (props) => {
   return (
+    <>
+    <Nav></Nav>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
@@ -101,6 +104,7 @@ const ForumForm = (props) => {
         </Box>
       </Box>
     </Container>
+    </>
   );
 };
 
