@@ -1,9 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import AuthContext from "./store/auth-context";
+import AppBar from "@mui/material/AppBar";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import CssBaseline from "@mui/material/CssBaseline";
+import Grid from "@mui/material/Grid";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Link from "@mui/material/Link";
+import GlobalStyles from "@mui/material/GlobalStyles";
+import Container from "@mui/material/Container";
+import Form from "react-bootstrap/Form";
 
 const Forum = () => {
   const params = useParams();
   const navigate = useNavigate();
+  const authCtx = useContext(AuthContext);
   const [forum, setForum] = useState({});
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
@@ -56,9 +72,8 @@ const Forum = () => {
 
     if (comment.length == 0) return;
 
-    
     const body = {
-      comment
+      comment,
     };
     const token = document.querySelector('meta[name="csrf-token"]').content;
 
@@ -78,26 +93,111 @@ const Forum = () => {
         throw new Error("Network response was not ok.");
       })
       .then((response) => {
-        setAddComment(prev => prev + 1);
+        setAddComment((prev) => prev + 1);
         setComment("");
-        })
+      })
       .catch((error) => console.log(error.message));
   };
 
-  const displayForum = (
-    <div>
-      <h1>{forum.title}</h1>
-      <p>{forum.descriptions}</p>
-    </div>
-  );
+  // const displayForum = (
+  //   <div>
+  //     <h1>{forum.title}</h1>
+  //     <p>{forum.descriptions}</p>
+  //   </div>
+  // );
+  // const displayComments = comments.map((comment) => (
+  //   <p key={comment.id}>Comment : {comment.comment}</p>
+  // ));
+
   const displayComments = comments.map((comment) => (
-    <p key={comment.id}>Comment : {comment.comment}</p>
+    <Typography key={comment.id} sx={{ textTransform: "capitalize" }}>
+      {comment.comment}
+    </Typography>
   ));
 
-  return (
+  const displayForum = (
+    <Container sx={{ py: 5 }} maxWidth="md">
+      {/* End hero unit */}
+      <Grid container>
+        <Grid item key={forum.id} sm={5}>
+          <Card
+            sx={{ height: "100%", display: "flex", flexDirection: "column" }}
+          >
+            <CardMedia
+              component="img"
+              sx={{
+                // 16:9
+                pt: "5%",
+                width: "50%",
+                display: "flex",
+                alignSelf: "center",
+              }}
+              image={forum.image}
+              alt="random"
+            />
+            <CardContent
+              sx={{ flexGrow: 1, alignSelf: "center", weight: "bold" }}
+            >
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="h2"
+                sx={{
+                  fontWeight: "bold",
+                  textTransform: "capitalize",
+                  textAlign: "center",
+                }}
+              >
+                {forum.title}
+              </Typography>
+              <Typography
+                sx={{ textTransform: "capitalize", textAlign: "center" }}
+              >
+                {forum.descriptions}
+              </Typography>
+            </CardContent>
+            <CardActions sx={{ alignSelf: "center" }}></CardActions>
+          </Card>
+        </Grid>
+        <Grid item xs>
+          <Card
+            sx={{ height: "100%", display: "flex", flexDirection: "column" }}
+          >
+            <CardContent sx={{ flexGrow: 1, weight: "bold" }}>
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="h2"
+                sx={{
+                  fontWeight: "bold",
+                  textTransform: "uppercase",
+                }}
+              >
+                Comments
+              </Typography>
+              {displayComments}
+            </CardContent>
+            <Form onSubmit={onSubmit}>
+              <Form.Group controlId="exampleForm.ControlInput1">
+                <Form.Control
+                  type="text"
+                  placeholder="Comment"
+                  name="comment"
+                  value={comment}
+                  onChange={onChange}
+                />
+              </Form.Group>
+            </Form>
+          </Card>
+        </Grid>
+      </Grid>
+    </Container>
+  );
+
+  const oldDisplay = (
     <div>
       {displayForum}
-      {displayComments}
+      {/* {displayComments} */}
       <div>
         <form onSubmit={onSubmit}>
           <div>
@@ -121,6 +221,84 @@ const Forum = () => {
         Delete Forum
       </button>
     </div>
+  );
+
+  return (
+    <React.Fragment>
+      <GlobalStyles
+        styles={{ ul: { margin: 0, padding: 0, listStyle: "none" } }}
+      />
+      <CssBaseline />
+      <AppBar
+        position="static"
+        color="default"
+        elevation={0}
+        sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
+      >
+        <Toolbar sx={{ flexWrap: "wrap" }}>
+          <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
+            Foodie
+          </Typography>
+
+          <Button
+            onClick={authCtx.logout}
+            variant="outlined"
+            sx={{ my: 1, mx: 1.5 }}
+          >
+            Logout
+          </Button>
+        </Toolbar>
+      </AppBar>
+
+      {/* Hero unit */}
+      <Container
+        disableGutters
+        maxWidth="sm"
+        component="main"
+        sx={{ pt: 8, pb: 6 }}
+      >
+        <Typography
+          component="h1"
+          variant="h3"
+          align="center"
+          color="black"
+          gutterBottom
+          fontWeight="bold"
+        >
+          Foodie Forums
+        </Typography>
+        <Grid container>
+          <Grid item xs={3} sm={4}>
+            <Button
+              fullWidth
+              variant="outline-primary margin-right"
+              href={`/forums`}
+            >
+              Home
+            </Button>
+          </Grid>
+          <Grid item xs={3} sm={4} md={3}>
+            <Button
+              fullWidth
+              variant="outline-primary margin-right"
+              href={`/forum/update/${forum.id}`}
+            >
+              Edit
+            </Button>
+          </Grid>
+          <Grid item xs={3} sm={4}>
+            <Button
+              fullWidth
+              variant="outline-primary margin-right"
+              onClick={deleteForum}
+            >
+              Delete
+            </Button>
+          </Grid>
+        </Grid>
+      </Container>
+      {displayForum}
+    </React.Fragment>
   );
 };
 

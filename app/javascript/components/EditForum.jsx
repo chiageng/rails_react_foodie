@@ -80,7 +80,7 @@ const EditForum = () => {
         </div>
         <div>
           <button type="submit">Update Forum</button>
-          <Link to="/forums">Cancel</Link>
+          <Link to={`/forums/show/${params.id}`}>Cancel</Link>
         </div>
       </form>
     </div>
