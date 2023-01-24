@@ -10,7 +10,7 @@ class Api::V1::ForumsController < ApplicationController
 
   def filtered
     category = Category.find_by(category: params[:category])
-    forums = category.forums
+    forums = category.forums.order(created_at: :desc)
     render json: forums
   end
 
@@ -37,14 +37,18 @@ class Api::V1::ForumsController < ApplicationController
   end
 
   def edit 
-    render json: @forum
+    categories = Category.all 
+    categories = categories.map{ |category| category.category }
+    category = @forum.categories.first.category
+    render json: {forum: @forum, categories:categories, category: category}
   end 
 
   def update
+    forum = @forum.update(forum_params)
     if (@forum.update(forum_params))
-      render json: @forum 
+      render json: forum 
     else 
-      render json: @forum.errors  
+      render json: forum.errors  
     end 
   end 
 

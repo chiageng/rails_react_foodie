@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Form from 'react-bootstrap/Form';
+import { useNavigate } from "react-router-dom";
+import Form from "react-bootstrap/Form";
+import AuthContext from "./store/auth-context";
+import ForumForm from "./ForumForm";
+import Link from "@mui/material/Link";
 
 const NewForum = () => {
   const navigate = useNavigate();
@@ -8,7 +11,6 @@ const NewForum = () => {
   const [descriptions, setDescriptions] = useState("");
   const [categoriesArr, setCategoriesArr] = useState([]);
   const [category, setCategory] = useState("");
-
 
   useEffect(() => {
     const url = "/api/v1/forum/create";
@@ -34,10 +36,8 @@ const NewForum = () => {
   }, []);
 
   const onChange = (event, setFunction) => {
-    console.log(event);
     setFunction(event.target.value);
   };
-
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -48,7 +48,7 @@ const NewForum = () => {
     const body = {
       title,
       descriptions,
-      category
+      category,
     };
 
     const token = document.querySelector('meta[name="csrf-token"]').content;
@@ -71,7 +71,7 @@ const NewForum = () => {
       .catch((error) => console.log(error.message));
   };
 
-  return (
+  const oldForm = (
     <div>
       <form onSubmit={onSubmit}>
         <div>
@@ -92,10 +92,15 @@ const NewForum = () => {
             onChange={(event) => onChange(event, setDescriptions)}
           ></input>
         </div>
-        <select onChange={(event) => onChange(event, setCategory)} value={category}>
+        <select
+          onChange={(event) => onChange(event, setCategory)}
+          value={category}
+        >
           <option>Open this select menu</option>
-          {categoriesArr.map(category => (
-            <option name="category" value={category} key={category}>{category}</option>
+          {categoriesArr.map((category) => (
+            <option name="category" value={category} key={category}>
+              {category}
+            </option>
           ))}
         </select>
         <div>
@@ -104,6 +109,22 @@ const NewForum = () => {
         </div>
       </form>
     </div>
+  );
+  return (
+    <ForumForm
+      title={title}
+      descriptions={descriptions}
+      onSubmit={onSubmit}
+      onChange={onChange}
+      feature="New Forum"
+      button="Create New Forum"
+      direction="/forums"
+      setTitle={setTitle}
+      setDescriptions={setDescriptions}
+      setCategory={setCategory}
+      categoriesArr={categoriesArr}
+      category={category}
+    ></ForumForm>
   );
 };
 

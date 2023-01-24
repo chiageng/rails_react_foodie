@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import ForumForm from "./ForumForm";
+
 const EditForum = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [descriptions, setDescriptions] = useState("");
+  const [categoriesArr, setCategoriesArr] = useState([]);
+  const [category, setCategory] = useState("");
 
   const onChange = (event, setFunction) => {
     setFunction(event.target.value);
@@ -20,8 +24,10 @@ const EditForum = () => {
         throw new Error("Network response was not ok.");
       })
       .then((response) => {
-        setTitle(response.title);
-        setDescriptions(response.descriptions);
+        setTitle(response.forum.title);
+        setDescriptions(response.forum.descriptions);
+        setCategoriesArr(response.categories)
+        setCategory(response.category)
       })
       .catch(() => navigate("/forums"));
   }, [params.id]);
@@ -35,6 +41,7 @@ const EditForum = () => {
     const body = {
       title,
       descriptions,
+      category
     };
 
     const token = document.querySelector('meta[name="csrf-token"]').content;
@@ -53,11 +60,11 @@ const EditForum = () => {
         }
         throw new Error("Network response was not ok.");
       })
-      .then((response) => navigate(`/forums/show/${response.id}`))
+      .then((response) => navigate(`/forums/show/${params.id}`))
       .catch((error) => console.log(error.message));
   };
 
-  return (
+  const oldForm = (
     <div>
       <form onSubmit={onSubmit}>
         <div>
@@ -84,6 +91,24 @@ const EditForum = () => {
         </div>
       </form>
     </div>
+  );
+
+  return (
+    <ForumForm
+      feature="Edit Forum"
+      button="Update Forum"
+      onSubmit={onSubmit}
+      title={title}
+      descriptions={descriptions}
+      direction={`/forums/show/${params.id}`}
+      onChange={onChange}
+      setTitle={setTitle}
+      setDescriptions={setDescriptions}
+      setCategory={setCategory}
+      categoriesArr={categoriesArr}
+      category={category}
+      disabled={true}
+    ></ForumForm>
   );
 };
 

@@ -536,6 +536,13 @@ const Forums = () => {
         >
           Foodie Forums
         </Typography>
+        <Button
+              fullWidth
+              variant="outline-primary margin-right"
+              href={"/forum/create"}
+            >
+              Create New Forum
+            </Button>
       </Container>
 
       {/* End hero unit */}

@@ -59,7 +59,10 @@ const Forum = () => {
         }
         throw new Error("Network response was not ok.");
       })
-      .then(() => navigate("/forums"))
+      .then(() =>{ 
+        alert("Deleted");
+        navigate("/forums");
+      })
       .catch((error) => console.log(error.message));
   };
   const onChange = (event) => {
