@@ -123,14 +123,11 @@ export default function Login() {
 
   const onChange = (event, setFunction) => {
     setFunction(event.target.value);
-    console.log(event.target.value);
   };
 
   const onSubmit = (event) => {
     event.preventDefault();
     const url = "/api/v1/login";
-    console.log(password);
-    console.log(username);
 
     if (username.length == 0 || password.length == 0) return;
 
