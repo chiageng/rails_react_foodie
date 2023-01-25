@@ -5,9 +5,9 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-# 9.times do |i|
-#     Forum.create(
-#       title: "Forum #{i + 1}",
-#       descriptions: "Forum Descriptions #{i + 1}"
-#     )
-# end
+9.times do |i|
+    User.create(
+      username: "user#{i + 1}",
+      password: "user#{i + 1}"
+    )
+end
