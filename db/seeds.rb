@@ -11,3 +11,10 @@
       password: "user#{i + 1}"
     )
 end
+
+3.times do |i|
+    Category.create(
+      category: "category#{i + 1}",
+      user_id: 1
+    )
+end
